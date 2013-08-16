@@ -246,7 +246,7 @@
             <plugin>
                 <groupId>org.fortasoft</groupId>
                 <artifactId>gradle-maven-plugin</artifactId>
-                <version>1.0.2-SNAPSHOT</version>
+                <version>1.0.5</version>
                 <configuration>
                     <gradleInstallationDir>${env.GRADLE_HOME}</gradleInstallationDir>
                     <tasks>
