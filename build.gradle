@@ -46,3 +46,7 @@ android {
         instrumentTest.setRoot('tests')
     }
 }
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '1.6'
+}
