@@ -235,6 +235,10 @@
                         <configuration>
                             <artifacts>
                                 <artifact>
+                                    <type>aar</type>
+                                    <file>build/libs/aerogear-android.aar</file>
+                                </artifact>
+                                <artifact>
                                     <type>jar</type>
                                     <file>${project.build.directory}/${project.build.finalName}.jar</file>
                                 </artifact>
