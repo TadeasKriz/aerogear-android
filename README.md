@@ -18,12 +18,11 @@ If you are unfamiliar with Maven, developerWorks has a detailed [introduction](h
 #### Prerequisites
 
 * Java 6.0 (Java SDK 1.6)+
-* Maven 3+
+* Maven 3.0.3+ (Note: 3.1.x is not currently supported by some of our upstream dependencies.)
 * Git
-* Android SDK
-* Need to have an AVD image running 2.3.3 (API level 10)
-* Need to include the Android Support Library.
-* Need to include the Google Play services.
+* Android SDK with *ALL* packages installed
+* Need to have an AVD image running 2.3.3 (API level 10) or higher
+
 
 ![Android SDK Manager](http://f.cl.ly/items/0J0m3H1m440I0Y173A1G/Android%20SDK%20-%20AeroGear.png)
 
@@ -34,20 +33,14 @@ If you are unfamiliar with Maven, developerWorks has a detailed [introduction](h
 
 We need to have the [Android Maven SDK Deployer](https://github.com/mosabua/maven-android-sdk-deployer) installed and configured. These are only quickstart instructions, the Android Maven SDK Deployer GitHub has a much more in depth install guide.
 
-You must have the version of the platform installed through the Android SDK as you are using for your profile. In this example, make sure Android 4.2 is installed.
+The Maven Android SDK Deployer works best if you install *ALL* of the packages available.
 
     export ANDROID_HOME=YOUR_ANDROID_SDK_DIRECTORY
     git clone https://github.com/mosabua/maven-android-sdk-deployer.git
-    cd maven-android-sdk-deployer/extras/
+    cd maven-android-sdk-deployer/
+    mvn install
 
-Edit the pom.xml and comment all modules except compatibility-v4 and google-play-services
-
-![Maven SDK Deployer Extras Modules](http://f.cl.ly/items/2Q1S0n2m2f043J323M0T/maven-sdk-deployer%20-%20extras%20modules.png)
-
-    cd ..
-    mvn install -P 4.2
-
-Now Maven will be able to include Android 4.2 as a dependency. There are also profiles for other version of Android.
+Now Maven will be able to include Android libraries as dependencies.
 
 #### Install aerogear-android
 
@@ -56,6 +49,8 @@ From the command line run the following. This will clone the aerogear-android gi
     git clone https://github.com/aerogear/aerogear-android.git
     cd aerogear-android/
     mvn install
+
+This will create apklibs and aars that you can include in your projects.  Please refer to the [AeroGear guides](http://aerogear.org/docs/guides/aerogear-android/) for more specific instructions.
 
 #### If your build fails with "Could not find tool 'aapt'"
 
@@ -74,5 +69,14 @@ Some installations use a slightly different structure such that the following wi
      ln -s ../build-tools/17.0.0/aapt aapt
      ln -s ../build-tools/17.0.0/lib lib
      ln -s ../build-tools/17.0.0/aidl aidl
+
+#### If your build fails with 'bad ELF interpreter: No such file or directory'
+
+This means you are running the Android SDK tools on a 64-bit Linux system where the ia32 libraries are not installed.   Please refer to your distribution's documention for instructions on how to include these.
+
+    ## In Fedora 
+    # yum install glibc.i686 glibc-devel.i686 libstdc++.i686 zlib-devel.i686 ncurses-devel.i686 libX11-devel.i686 libXrender.i686 libXrandr.i686
+
+
 
 If you are having troubles feel free to contact us via IRC #aerogear or our mailing list aerogear-dev@lists.jboss.org.
