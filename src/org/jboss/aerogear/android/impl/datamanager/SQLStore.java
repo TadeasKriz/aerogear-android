@@ -295,7 +295,7 @@ public class SQLStore<T> extends SQLiteOpenHelper implements Store<T> {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
-    public void open(final Callback onReady) {
+    public void open(final Callback<SQLStore<T>> onReady) {
         new AsyncTask<Void, Void, Void>() {
             private Exception exception;
 
@@ -303,7 +303,6 @@ public class SQLStore<T> extends SQLiteOpenHelper implements Store<T> {
             protected Void doInBackground(Void... params) {
                 try {
                     SQLStore.this.database = getWritableDatabase();
-                    onReady.onSuccess(this);
                 } catch (Exception e) {
                     this.exception = e;
                     Log.e(TAG, "There was an error loading the database", e);
@@ -319,7 +318,7 @@ public class SQLStore<T> extends SQLiteOpenHelper implements Store<T> {
                     onReady.onSuccess(SQLStore.this);
                 }
             }
-        }.execute((Void) null);
+        }.execute();
     }
 
     @Override
