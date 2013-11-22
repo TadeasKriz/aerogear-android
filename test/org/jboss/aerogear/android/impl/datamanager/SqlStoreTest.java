@@ -19,12 +19,6 @@ package org.jboss.aerogear.android.impl.datamanager;
 import android.content.Context;
 import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
 import org.jboss.aerogear.android.Callback;
 import org.jboss.aerogear.android.ReadFilter;
 import org.jboss.aerogear.android.RecordId;
@@ -32,10 +26,16 @@ import org.jboss.aerogear.android.impl.helper.Data;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 @RunWith(RobolectricTestRunner.class)
 public class SqlStoreTest {
@@ -46,6 +46,10 @@ public class SqlStoreTest {
 
     @Before
     public void setUp() {
+        // Let's not run this test on Mac OS X with Java 1.7 until SQLite is compatible with that configuration
+        Assume.assumeTrue(!System.getProperty("os.name").toLowerCase().startsWith("mac os x") ||
+                !System.getProperty("java.version").startsWith("1.7.0"));
+
         this.context = Robolectric.application.getApplicationContext();
         this.store = new SQLStore<Data>(Data.class, context);
         this.nestedStore = new SQLStore<TrivialNestedClass>(TrivialNestedClass.class, context);
