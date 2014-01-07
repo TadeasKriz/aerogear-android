@@ -26,6 +26,7 @@ import org.jboss.aerogear.android.impl.helper.DataWithNoIdConfigured;
 import org.jboss.aerogear.android.impl.helper.DataWithNoPropertyId;
 import org.jboss.aerogear.android.impl.reflection.PropertyNotFoundException;
 import org.jboss.aerogear.android.impl.reflection.RecordIdNotFoundException;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -37,7 +38,6 @@ import static org.jboss.aerogear.android.impl.datamanager.StoreTypes.ENCRYPTED_S
 import static org.junit.Assert.*;
 
 @RunWith(RobolectricTestRunner.class)
-@Ignore
 public class EncryptedSQLStoreTest {
 
     private EncryptedSQLStore<Data> store;
@@ -45,6 +45,10 @@ public class EncryptedSQLStoreTest {
 
     @Before
     public void setUp() {
+        // Let's not run this test on Mac OS X with Java 1.7 until SQLite is compatible with that configuration
+        Assume.assumeTrue(!System.getProperty("os.name").toLowerCase().startsWith("mac os x") ||
+                !System.getProperty("java.version").startsWith("1.7.0"));
+
         Context context = Robolectric.application.getApplicationContext();
         Class<Data> dataModel = Data.class;
         GsonBuilder builder = new GsonBuilder();
